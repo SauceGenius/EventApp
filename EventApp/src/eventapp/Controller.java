@@ -141,13 +141,15 @@ public class Controller {
         channel.removeChild(element);  
     }
     
-    public void saveToXMLFile() throws IOException, TransformerException{
+    public void saveToXMLFile(String path) throws IOException, TransformerException{
         TransformerFactory tfact = TransformerFactory.newInstance();
         Transformer transformer = tfact.newTransformer();
         transformer.setOutputProperty("encoding", "UTF-8");
         DOMSource source = new DOMSource(document);
-        FileWriter fw = new FileWriter("RSSFeed.xml");
+        String dest = path.concat("\\RSSFeed.xml");
+        FileWriter fw = new FileWriter(dest);
         StreamResult result = new StreamResult(fw);
+        
         transformer.transform(source, result);
     }
 }
