@@ -17,14 +17,18 @@ import javax.xml.transform.TransformerException;
 public class MainFrame extends javax.swing.JFrame {
 
     private Controller controller;
+    private boolean isAdding;
 
     public MainFrame(Controller controller) {
         initComponents();
         this.controller = controller;
+        this.isAdding = false;
         setLocationRelativeTo(null);
         tableEvents.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 18));
         jPanelAdd.setVisible(false);
-        jPanelModify.setVisible(false);
+        buttonAdd.setEnabled(false);
+        buttonModify.setEnabled(false);
+        buttonDelete.setEnabled(false);
     }
 
     /**
@@ -45,7 +49,7 @@ public class MainFrame extends javax.swing.JFrame {
         buttonModify = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
         jPanelAdd = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabelAddTitle = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextFieldTitle = new javax.swing.JTextField();
@@ -58,20 +62,8 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonAddCancel = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jTextFieldDescription = new javax.swing.JTextField();
-        jPanelModify = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jTextFieldTitle1 = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jFormattedTextFieldDate1 = new javax.swing.JFormattedTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jTextFieldLink1 = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jTextFieldGuid1 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jTextFieldDescription1 = new javax.swing.JTextField();
-        jButtonModifyAccept = new javax.swing.JButton();
-        jButtonModifyCancel = new javax.swing.JButton();
+        jCheckBoxGuid = new javax.swing.JCheckBox();
+        jCheckBoxDescription = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuItemOpen = new javax.swing.JMenuItem();
@@ -83,7 +75,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EventApp");
-        setPreferredSize(new java.awt.Dimension(1200, 900));
         setResizable(false);
 
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(1200, 870));
@@ -143,7 +134,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         buttonModify.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         buttonModify.setText("Modifier");
-        buttonModify.setEnabled(false);
         buttonModify.setFocusable(false);
         buttonModify.setMaximumSize(new java.awt.Dimension(170, 70));
         buttonModify.setMinimumSize(new java.awt.Dimension(170, 70));
@@ -156,7 +146,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         buttonDelete.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         buttonDelete.setText("Supprimer");
-        buttonDelete.setEnabled(false);
         buttonDelete.setFocusable(false);
         buttonDelete.setMaximumSize(new java.awt.Dimension(170, 70));
         buttonDelete.setMinimumSize(new java.awt.Dimension(170, 70));
@@ -204,13 +193,13 @@ public class MainFrame extends javax.swing.JFrame {
         jPanelAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanelAdd.setPreferredSize(new java.awt.Dimension(700, 543));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Ajouter un événement");
-        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel2.setMaximumSize(new java.awt.Dimension(174, 46));
-        jLabel2.setMinimumSize(new java.awt.Dimension(174, 46));
-        jLabel2.setPreferredSize(new java.awt.Dimension(174, 46));
+        jLabelAddTitle.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabelAddTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelAddTitle.setText("Ajouter un événement");
+        jLabelAddTitle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabelAddTitle.setMaximumSize(new java.awt.Dimension(174, 46));
+        jLabelAddTitle.setMinimumSize(new java.awt.Dimension(174, 46));
+        jLabelAddTitle.setPreferredSize(new java.awt.Dimension(174, 46));
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel8.setText("Titre");
@@ -266,6 +255,20 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTextFieldDescription.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        jCheckBoxGuid.setText("(Même que lien)");
+        jCheckBoxGuid.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxGuidActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxDescription.setText("(Même que titre)");
+        jCheckBoxDescription.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxDescriptionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelAddLayout = new javax.swing.GroupLayout(jPanelAdd);
         jPanelAdd.setLayout(jPanelAddLayout);
         jPanelAddLayout.setHorizontalGroup(
@@ -276,27 +279,33 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jTextFieldLink)
                     .addGroup(jPanelAddLayout.createSequentialGroup()
                         .addComponent(jButtonAddAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
                         .addComponent(jButtonAddCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTextFieldTitle)
                     .addComponent(jTextFieldGuid)
                     .addComponent(jFormattedTextFieldDate)
                     .addComponent(jTextFieldDescription)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelAddTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelAddLayout.createSequentialGroup()
                         .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel4))
+                            .addGroup(jPanelAddLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jCheckBoxGuid))
+                            .addGroup(jPanelAddLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBoxDescription)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(20, 20, 20))
         );
         jPanelAddLayout.setVerticalGroup(
             jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAddLayout.createSequentialGroup()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelAddTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -306,15 +315,19 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldLink, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addComponent(jLabel4)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jCheckBoxGuid))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldGuid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jFormattedTextFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jCheckBoxDescription))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
@@ -326,139 +339,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLayeredPane1.setLayer(jPanelAdd, javax.swing.JLayeredPane.MODAL_LAYER);
         jLayeredPane1.add(jPanelAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, -1, -1));
-
-        jPanelModify.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanelModify.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanelModify.setMaximumSize(new java.awt.Dimension(717, 32767));
-        jPanelModify.setPreferredSize(new java.awt.Dimension(700, 543));
-
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Modifier un événement");
-        jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jLabel7.setMaximumSize(new java.awt.Dimension(174, 46));
-        jLabel7.setMinimumSize(new java.awt.Dimension(174, 46));
-        jLabel7.setPreferredSize(new java.awt.Dimension(174, 46));
-
-        jLabel9.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel9.setText("Titre");
-
-        jTextFieldTitle1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextFieldTitle1.setMaximumSize(new java.awt.Dimension(663, 2147483647));
-        jTextFieldTitle1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldTitle1ActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel10.setText("Date");
-
-        jFormattedTextFieldDate1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jFormattedTextFieldDate1.setMaximumSize(new java.awt.Dimension(663, 2147483647));
-
-        jLabel11.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel11.setText("Lien");
-
-        jTextFieldLink1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextFieldLink1.setMaximumSize(new java.awt.Dimension(663, 2147483647));
-        jTextFieldLink1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldLink1ActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel12.setText("Guid");
-
-        jTextFieldGuid1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextFieldGuid1.setMaximumSize(new java.awt.Dimension(663, 2147483647));
-
-        jLabel13.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jLabel13.setText("Description");
-
-        jTextFieldDescription1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jTextFieldDescription1.setMaximumSize(new java.awt.Dimension(663, 2147483647));
-
-        jButtonModifyAccept.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButtonModifyAccept.setText("Terminer");
-        jButtonModifyAccept.setFocusable(false);
-        jButtonModifyAccept.setPreferredSize(new java.awt.Dimension(150, 60));
-        jButtonModifyAccept.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonModifyAcceptActionPerformed(evt);
-            }
-        });
-
-        jButtonModifyCancel.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jButtonModifyCancel.setText("Annuler");
-        jButtonModifyCancel.setPreferredSize(new java.awt.Dimension(150, 60));
-        jButtonModifyCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonModifyCancelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelModifyLayout = new javax.swing.GroupLayout(jPanelModify);
-        jPanelModify.setLayout(jPanelModifyLayout);
-        jPanelModifyLayout.setHorizontalGroup(
-            jPanelModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModifyLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanelModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jFormattedTextFieldDate1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldLink1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldGuid1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldDescription1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldTitle1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanelModifyLayout.createSequentialGroup()
-                        .addGroup(jPanelModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel13))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanelModifyLayout.createSequentialGroup()
-                        .addComponent(jButtonModifyAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
-                        .addComponent(jButtonModifyCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20))
-        );
-        jPanelModifyLayout.setVerticalGroup(
-            jPanelModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModifyLayout.createSequentialGroup()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldTitle1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jFormattedTextFieldDate1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldLink1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldGuid1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldDescription1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addGroup(jPanelModifyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonModifyAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonModifyCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
-        );
-
-        jLayeredPane1.setLayer(jPanelModify, javax.swing.JLayeredPane.POPUP_LAYER);
-        jLayeredPane1.add(jPanelModify, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, -1, -1));
 
         jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenuBar1.setFocusable(false);
@@ -528,10 +408,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         // TODO add your handling code here:
+        isAdding = true;
         buttonAdd.setEnabled(false);
         buttonModify.setEnabled(false);
         buttonDelete.setEnabled(false);
         tableEvents.setEnabled(false);
+        jLabelAddTitle.setText("Ajouter un événement");
         jPanelAdd.setVisible(true);
     }//GEN-LAST:event_buttonAddActionPerformed
 
@@ -546,7 +428,8 @@ public class MainFrame extends javax.swing.JFrame {
             buttonModify.setEnabled(false);
             buttonDelete.setEnabled(false);
             tableEvents.setEnabled(false);
-            jPanelModify.setVisible(true);  
+            jLabelAddTitle.setText("Modifier un événement");
+            jPanelAdd.setVisible(true);  
                      
             int row = tableEvents.getSelectedRow();
             Event event = controller.getEvent(row);
@@ -557,11 +440,11 @@ public class MainFrame extends javax.swing.JFrame {
             String pubDate = event.getPubDate();
             String desc = event.getDescription();
             
-            jTextFieldTitle1.setText(title);
-            jTextFieldLink1.setText(link);
-            jTextFieldGuid1.setText(guid);
-            jFormattedTextFieldDate1.setText(pubDate);
-            jTextFieldDescription1.setText(desc);                     
+            jTextFieldTitle.setText(title);
+            jTextFieldLink.setText(link);
+            jTextFieldGuid.setText(guid);
+            jFormattedTextFieldDate.setText(pubDate);
+            jTextFieldDescription.setText(desc);                     
         }
     }//GEN-LAST:event_buttonModifyActionPerformed
 
@@ -572,8 +455,11 @@ public class MainFrame extends javax.swing.JFrame {
         if (selectedRow < 0){
             JOptionPane.showMessageDialog(this, "Aucune sélection, veuillez sélectionner une rangée.", "Erreur de sélection", JOptionPane.ERROR_MESSAGE);
         } else {
-            int row = tableEvents.getSelectedRow();
-            controller.removeEvent(row);
+            int row = tableEvents.getSelectedRow();       
+            int del = JOptionPane.showConfirmDialog(this,"Etes-vous sur de vouloir supprimer cette rangée?");
+            if(del == 0){
+                controller.removeEvent(row);
+            }
             
             // Reload tableEvents
             DefaultTableModel model = (DefaultTableModel) tableEvents.getModel();
@@ -596,15 +482,30 @@ public class MainFrame extends javax.swing.JFrame {
         String strTitle = jTextFieldTitle.getText();
         String strPubDate = jFormattedTextFieldDate.getText();
         String strLink = jTextFieldLink.getText();
-        String strGuid = jTextFieldGuid.getText();
-        String strDescription = jTextFieldDescription.getText();
+        String strGuid;
+        if(jCheckBoxGuid.isSelected()){
+            strGuid = jTextFieldLink.getText();
+        } else {
+            strGuid = jTextFieldGuid.getText();
+        }
+        String strDescription;
+        if(jCheckBoxDescription.isSelected()){
+            strDescription = jTextFieldTitle.getText();
+        } else {
+            strDescription = jTextFieldDescription.getText();
+        }
         
         if (strTitle.isEmpty() || strPubDate.isEmpty() || strLink.isEmpty() || strGuid.isEmpty() || strDescription.isEmpty()){
             JOptionPane.showMessageDialog(this, "Formulaire incomplet, veuillez remplir toutes les cases", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
         } else {
             // Create an event and send to controller.
             Event newEvent = new Event(strTitle, strLink, strGuid, strPubDate, strDescription);
+            if (isAdding) {                           
             controller.addEvent(newEvent);
+            isAdding = false;
+            } else {
+                controller.modifyEvent(tableEvents.getSelectedRow(),newEvent);
+            }
         
             // Refresh tableEvents
             DefaultTableModel model = (DefaultTableModel) tableEvents.getModel();
@@ -616,6 +517,8 @@ public class MainFrame extends javax.swing.JFrame {
             jTextFieldLink.setText("");
             jTextFieldGuid.setText("");
             jTextFieldDescription.setText("");
+            jTextFieldGuid.setEnabled(true);
+            jCheckBoxGuid.setSelected(false);
             jPanelAdd.setVisible(false);     
             
             buttonAdd.setEnabled(true);
@@ -633,6 +536,8 @@ public class MainFrame extends javax.swing.JFrame {
         jTextFieldLink.setText("");
         jTextFieldGuid.setText("");
         jTextFieldDescription.setText("");
+        jTextFieldGuid.setEnabled(true);
+        jCheckBoxGuid.setSelected(false);
         jPanelAdd.setVisible(false);
         
         buttonAdd.setEnabled(true);
@@ -640,64 +545,6 @@ public class MainFrame extends javax.swing.JFrame {
         buttonDelete.setEnabled(true);
         tableEvents.setEnabled(true);
     }//GEN-LAST:event_jButtonAddCancelActionPerformed
-
-    private void jTextFieldTitle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTitle1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldTitle1ActionPerformed
-
-    private void jTextFieldLink1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldLink1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldLink1ActionPerformed
-
-    private void jButtonModifyAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModifyAcceptActionPerformed
-        // TODO add your handling code here:
-        String strTitle = jTextFieldTitle1.getText();
-        String strPubDate = jFormattedTextFieldDate1.getText();
-        String strLink = jTextFieldLink1.getText();
-        String strGuid = jTextFieldGuid1.getText();
-        String strDescription = jTextFieldDescription1.getText();
-        
-        if (strTitle.isEmpty() || strPubDate.isEmpty() || strLink.isEmpty() || strGuid.isEmpty() || strDescription.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Formulaire incomplet, veuillez remplir toutes les cases", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
-        } else {
-            // Create an event and send to controller.
-            Event newEvent = new Event(strTitle, strLink, strGuid, strPubDate, strDescription);
-            controller.modifyEvent(tableEvents.getSelectedRow(),newEvent);
-        
-            // Refresh tableEvents
-            DefaultTableModel model = (DefaultTableModel) tableEvents.getModel();
-            controller.loadTreeToInterface(model);
-        
-            // Reset and close form
-            jTextFieldTitle1.setText("");
-            jFormattedTextFieldDate1.setText("");
-            jTextFieldLink1.setText("");
-            jTextFieldGuid1.setText("");
-            jTextFieldDescription1.setText("");
-            jPanelModify.setVisible(false);     
-            
-            buttonAdd.setEnabled(true);
-            buttonModify.setEnabled(true);
-            buttonDelete.setEnabled(true);
-            tableEvents.setEnabled(true);
-        }
-    }//GEN-LAST:event_jButtonModifyAcceptActionPerformed
-
-    private void jButtonModifyCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModifyCancelActionPerformed
-        // TODO add your handling code here:
-        // Reset and close form
-        jTextFieldTitle.setText("");
-        jFormattedTextFieldDate.setText("");
-        jTextFieldLink.setText("");
-        jTextFieldGuid.setText("");
-        jTextFieldDescription.setText("");
-        jPanelModify.setVisible(false);
-        
-        buttonAdd.setEnabled(true);
-        buttonModify.setEnabled(true);
-        buttonDelete.setEnabled(true);
-        tableEvents.setEnabled(true);
-    }//GEN-LAST:event_jButtonModifyCancelActionPerformed
 
     private void jMenuItemOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemOpenActionPerformed
         // TODO add your handling code here:
@@ -708,6 +555,7 @@ public class MainFrame extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tableEvents.getModel();
             controller.loadTreeToInterface(model);
             
+            buttonAdd.setEnabled(true);
             buttonModify.setEnabled(true);
             buttonDelete.setEnabled(true);
             
@@ -742,6 +590,24 @@ public class MainFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItemCloseActionPerformed
 
+    private void jCheckBoxGuidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxGuidActionPerformed
+        // TODO add your handling code here:
+        if(jTextFieldGuid.isEnabled()){
+            jTextFieldGuid.setEnabled(false);
+        } else {
+            jTextFieldGuid.setEnabled(true);
+        }       
+    }//GEN-LAST:event_jCheckBoxGuidActionPerformed
+
+    private void jCheckBoxDescriptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxDescriptionActionPerformed
+        // TODO add your handling code here:
+        if(jTextFieldDescription.isEnabled()){
+            jTextFieldDescription.setEnabled(false);
+        } else {
+            jTextFieldDescription.setEnabled(true);
+        }     
+    }//GEN-LAST:event_jCheckBoxDescriptionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;
@@ -749,23 +615,16 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonModify;
     private javax.swing.JButton jButtonAddAccept;
     private javax.swing.JButton jButtonAddCancel;
-    private javax.swing.JButton jButtonModifyAccept;
-    private javax.swing.JButton jButtonModifyCancel;
+    private javax.swing.JCheckBox jCheckBoxDescription;
+    private javax.swing.JCheckBox jCheckBoxGuid;
     private javax.swing.JFormattedTextField jFormattedTextFieldDate;
-    private javax.swing.JFormattedTextField jFormattedTextFieldDate1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelAddTitle;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuEdit;
@@ -776,17 +635,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSaveAs;
     private javax.swing.JPanel jPanelAdd;
     private javax.swing.JPanel jPanelDefault;
-    private javax.swing.JPanel jPanelModify;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTextFieldDescription;
-    private javax.swing.JTextField jTextFieldDescription1;
     private javax.swing.JTextField jTextFieldGuid;
-    private javax.swing.JTextField jTextFieldGuid1;
     private javax.swing.JTextField jTextFieldLink;
-    private javax.swing.JTextField jTextFieldLink1;
     private javax.swing.JTextField jTextFieldTitle;
-    private javax.swing.JTextField jTextFieldTitle1;
     private javax.swing.JTable tableEvents;
     // End of variables declaration//GEN-END:variables
 }

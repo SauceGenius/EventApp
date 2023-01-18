@@ -81,7 +81,6 @@ public class Controller {
         NodeList nlDesc = item.getElementsByTagName("description");
         Element desc = (Element) nlDesc.item(0);
         String eventDesc = desc.getFirstChild().getNodeValue();
-        System.out.println(eventDesc);
         
         Event event = new Event(eventTitle, eventLink, eventGuid, eventPubDate, eventDesc);
         return event;
