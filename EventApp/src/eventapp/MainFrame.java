@@ -16,14 +16,13 @@ import javax.xml.transform.TransformerException;
 
 public class MainFrame extends javax.swing.JFrame {
 
-    private Controller controller;
+    private final Controller controller;
     private boolean isAdding;
 
     public MainFrame(Controller controller) {
         initComponents();
         this.controller = controller;
         this.isAdding = false;
-        setLocationRelativeTo(null);
         tableEvents.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 18));
         jPanelAdd.setVisible(false);
         buttonAdd.setEnabled(false);
@@ -40,38 +39,37 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLayeredPane1 = new javax.swing.JLayeredPane();
-        jPanelDefault = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        javax.swing.JLayeredPane jLayeredPane1 = new javax.swing.JLayeredPane();
+        javax.swing.JPanel jPanelDefault = new javax.swing.JPanel();
+        javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
         tableEvents = new javax.swing.JTable();
         buttonAdd = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         buttonModify = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
         jPanelAdd = new javax.swing.JPanel();
         jLabelAddTitle = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
         jTextFieldTitle = new javax.swing.JTextField();
         jFormattedTextFieldDate = new javax.swing.JFormattedTextField();
-        jLabel6 = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
         jTextFieldLink = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
         jTextFieldGuid = new javax.swing.JTextField();
-        jButtonAddAccept = new javax.swing.JButton();
-        jButtonAddCancel = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        javax.swing.JButton jButtonAddAccept = new javax.swing.JButton();
+        javax.swing.JButton jButtonAddCancel = new javax.swing.JButton();
+        javax.swing.JLabel jLabel5 = new javax.swing.JLabel();
         jTextFieldDescription = new javax.swing.JTextField();
         jCheckBoxGuid = new javax.swing.JCheckBox();
         jCheckBoxDescription = new javax.swing.JCheckBox();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenuFile = new javax.swing.JMenu();
-        jMenuItemOpen = new javax.swing.JMenuItem();
-        jMenuItemSave = new javax.swing.JMenuItem();
-        jMenuItemSaveAs = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItemClose = new javax.swing.JMenuItem();
-        jMenuEdit = new javax.swing.JMenu();
+        javax.swing.JMenuBar jMenuBar1 = new javax.swing.JMenuBar();
+        javax.swing.JMenu jMenuFile = new javax.swing.JMenu();
+        javax.swing.JMenuItem jMenuItemOpen = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemSaveAs = new javax.swing.JMenuItem();
+        javax.swing.JPopupMenu.Separator jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        javax.swing.JMenuItem jMenuItemClose = new javax.swing.JMenuItem();
+        javax.swing.JMenu jMenuEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EventApp");
@@ -365,11 +363,7 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenuFile.add(jMenuItemOpen);
 
-        jMenuItemSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItemSave.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jMenuItemSave.setText("Sauvegarder");
-        jMenuFile.add(jMenuItemSave);
-
+        jMenuItemSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItemSaveAs.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jMenuItemSaveAs.setText("Sauvegarder sous");
         jMenuItemSaveAs.addActionListener(new java.awt.event.ActionListener() {
@@ -622,30 +616,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonModify;
-    private javax.swing.JButton jButtonAddAccept;
-    private javax.swing.JButton jButtonAddCancel;
     private javax.swing.JCheckBox jCheckBoxDescription;
     private javax.swing.JCheckBox jCheckBoxGuid;
     private javax.swing.JFormattedTextField jFormattedTextFieldDate;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelAddTitle;
-    private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenu jMenuEdit;
-    private javax.swing.JMenu jMenuFile;
-    private javax.swing.JMenuItem jMenuItemClose;
-    private javax.swing.JMenuItem jMenuItemOpen;
-    private javax.swing.JMenuItem jMenuItemSave;
-    private javax.swing.JMenuItem jMenuItemSaveAs;
     private javax.swing.JPanel jPanelAdd;
-    private javax.swing.JPanel jPanelDefault;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextField jTextFieldDescription;
     private javax.swing.JTextField jTextFieldGuid;
     private javax.swing.JTextField jTextFieldLink;

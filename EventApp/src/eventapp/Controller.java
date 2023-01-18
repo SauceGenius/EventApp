@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
 
 public class Controller {
     
-    private XMLParser xmlParser;
+    private final XMLParser xmlParser;
     private Document document;
     private Element channel;
 
@@ -148,7 +148,6 @@ public class Controller {
         String dest = path.concat("\\RSSFeed.xml");
         FileWriter fw = new FileWriter(dest);
         StreamResult result = new StreamResult(fw);
-        
         transformer.transform(source, result);
     }
 }

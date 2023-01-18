@@ -15,8 +15,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class XMLParser {
     
     private Document document;
-        
-    public XMLParser(){}
     
     public Document parse(String url) throws Exception{
         // Loads an XML file and builds a DOM tree document.
@@ -30,8 +28,7 @@ public class XMLParser {
     public Element getElement(String elementName){
         //Access channel
         NodeList nl = document.getElementsByTagName(elementName);
-        Element element = (Element) nl.item(0);
-        
+        Element element = (Element) nl.item(0);      
         return element;
     }
     
