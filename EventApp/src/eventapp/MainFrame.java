@@ -75,16 +75,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EventApp");
-        setResizable(false);
+        setMinimumSize(new java.awt.Dimension(600, 490));
+        setPreferredSize(new java.awt.Dimension(1200, 900));
 
+        jLayeredPane1.setMinimumSize(new java.awt.Dimension(20, 20));
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(1200, 870));
-        jLayeredPane1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLayeredPane1.setLayout(new javax.swing.OverlayLayout(jLayeredPane1));
 
         jPanelDefault.setPreferredSize(new java.awt.Dimension(1200, 870));
 
         jScrollPane1.setColumnHeaderView(null);
         jScrollPane1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(1160, 640));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(1160, 670));
 
         tableEvents.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tableEvents.setModel(new javax.swing.table.DefaultTableModel(
@@ -104,7 +106,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         tableEvents.setMaximumSize(new java.awt.Dimension(2147483647, 7000));
-        tableEvents.setMinimumSize(new java.awt.Dimension(1160, 640));
+        tableEvents.setMinimumSize(new java.awt.Dimension(20, 20));
         tableEvents.setPreferredSize(new java.awt.Dimension(1160, 670));
         tableEvents.setRowHeight(40);
         jScrollPane1.setViewportView(tableEvents);
@@ -170,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(buttonModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(20, 20, 20))
         );
         jPanelDefaultLayout.setVerticalGroup(
@@ -179,8 +181,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 672, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanelDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonModify, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,7 +190,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
-        jLayeredPane1.add(jPanelDefault, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 880));
+        jLayeredPane1.add(jPanelDefault);
 
         jPanelAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanelAdd.setPreferredSize(new java.awt.Dimension(700, 543));
@@ -196,6 +198,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabelAddTitle.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabelAddTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelAddTitle.setText("Ajouter un événement");
+        jLabelAddTitle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jLabelAddTitle.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jLabelAddTitle.setMaximumSize(new java.awt.Dimension(174, 46));
         jLabelAddTitle.setMinimumSize(new java.awt.Dimension(174, 46));
@@ -207,7 +210,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel3.setText("Date");
 
-        jTextFieldTitle.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jTextFieldTitle.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jTextFieldTitle.setPreferredSize(new java.awt.Dimension(659, 30));
         jTextFieldTitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldTitleActionPerformed(evt);
@@ -215,11 +219,13 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jFormattedTextFieldDate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jFormattedTextFieldDate.setPreferredSize(new java.awt.Dimension(659, 30));
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel6.setText("Lien");
 
         jTextFieldLink.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jTextFieldLink.setPreferredSize(new java.awt.Dimension(659, 30));
         jTextFieldLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldLinkActionPerformed(evt);
@@ -230,6 +236,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel4.setText("Guid");
 
         jTextFieldGuid.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jTextFieldGuid.setPreferredSize(new java.awt.Dimension(659, 30));
 
         jButtonAddAccept.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jButtonAddAccept.setText("Terminer");
@@ -254,6 +261,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel5.setText("Description");
 
         jTextFieldDescription.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jTextFieldDescription.setPreferredSize(new java.awt.Dimension(659, 30));
 
         jCheckBoxGuid.setText("(Même que lien)");
         jCheckBoxGuid.addActionListener(new java.awt.event.ActionListener() {
@@ -275,45 +283,43 @@ public class MainFrame extends javax.swing.JFrame {
             jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAddLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldLink)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelAddLayout.createSequentialGroup()
                         .addComponent(jButtonAddAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAddCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTextFieldTitle)
-                    .addComponent(jTextFieldGuid)
-                    .addComponent(jFormattedTextFieldDate)
-                    .addComponent(jTextFieldDescription)
-                    .addComponent(jLabelAddTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextFieldDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldGuid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldLink, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6)
                     .addGroup(jPanelAddLayout.createSequentialGroup()
-                        .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addGroup(jPanelAddLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCheckBoxGuid))
-                            .addGroup(jPanelAddLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(jCheckBoxDescription)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBoxGuid))
+                    .addGroup(jPanelAddLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBoxDescription))
+                    .addComponent(jLabelAddTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
         );
         jPanelAddLayout.setVerticalGroup(
             jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelAddLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(jLabelAddTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldLink, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldLink, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -323,13 +329,13 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jFormattedTextFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jFormattedTextFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jCheckBoxDescription))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
                 .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAddAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,7 +344,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         jLayeredPane1.setLayer(jPanelAdd, javax.swing.JLayeredPane.MODAL_LAYER);
-        jLayeredPane1.add(jPanelAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, -1, -1));
+        jLayeredPane1.add(jPanelAdd);
 
         jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenuBar1.setFocusable(false);
@@ -399,7 +405,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 880, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setSize(new java.awt.Dimension(1216, 908));
@@ -518,7 +524,9 @@ public class MainFrame extends javax.swing.JFrame {
             jTextFieldGuid.setText("");
             jTextFieldDescription.setText("");
             jTextFieldGuid.setEnabled(true);
+            jTextFieldDescription.setEnabled(true);
             jCheckBoxGuid.setSelected(false);
+            jCheckBoxDescription.setSelected(false);
             jPanelAdd.setVisible(false);     
             
             buttonAdd.setEnabled(true);
@@ -531,6 +539,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButtonAddCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddCancelActionPerformed
         // TODO add your handling code here:
         // Reset and close form
+        isAdding = false;
         jTextFieldTitle.setText("");
         jFormattedTextFieldDate.setText("");
         jTextFieldLink.setText("");
