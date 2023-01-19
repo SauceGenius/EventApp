@@ -2,13 +2,12 @@ package eventapp;
 
 import java.awt.Font;
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.transform.TransformerException;
 
 /**
  * @author Christopher Forget
@@ -16,12 +15,12 @@ import javax.xml.transform.TransformerException;
 
 public class MainFrame extends javax.swing.JFrame {
 
-    private final Controller controller;
+    ArrayList<Observer> observers = new ArrayList<>();
     private boolean isAdding;
 
     public MainFrame(Controller controller) {
         initComponents();
-        this.controller = controller;
+        this.addObserver(controller);
         this.isAdding = false;
         tableEvents.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 18));
         jPanelAdd.setVisible(false);
@@ -29,6 +28,58 @@ public class MainFrame extends javax.swing.JFrame {
         buttonModify.setEnabled(false);
         buttonDelete.setEnabled(false);
     }
+    
+    public void addObserver(Observer o){
+        observers.add(o);
+    }
+    public void removeObserver(Observer o){
+        observers.remove(o);
+    }
+            
+    public void notifyNewEvent(Event event){
+        for(Observer observer: observers){
+            observer.addEvent(event);
+        }
+    }
+    
+    public void notifyModifyEvent(int row, Event event){
+        for(Observer observer: observers){
+            observer.modifyEvent(row, event);
+        }
+    }
+        
+    public void notifyLoadTable(DefaultTableModel model){
+        for(Observer observer: observers){
+            observer.loadTreeToInterface(model);
+        }
+    }
+        
+    public Event notifyGetEvent(int row){
+        for(Observer observer: observers){
+            Event event = observer.getEvent(row);
+            return event;
+        }
+        return null;
+    }
+    
+    public void notifyRemoveEvent(int row){
+        for(Observer observer: observers){
+            observer.removeEvent(row);
+        }
+    }
+    
+    public void notifyOpenRSS(String url) throws Exception{
+        for(Observer observer: observers){
+            observer.openRSS(url);
+        }
+    }
+    
+    public void notifySaveToXMLFile(String url) throws Exception{
+        for(Observer observer: observers){
+            observer.saveToXMLFile(url);
+        }
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,6 +90,8 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        JMenuItemColler = new javax.swing.JMenuItem();
         javax.swing.JLayeredPane jLayeredPane1 = new javax.swing.JLayeredPane();
         javax.swing.JPanel jPanelDefault = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
@@ -70,11 +123,25 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.JPopupMenu.Separator jSeparator1 = new javax.swing.JPopupMenu.Separator();
         javax.swing.JMenuItem jMenuItemClose = new javax.swing.JMenuItem();
         javax.swing.JMenu jMenuEdit = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+
+        JMenuItemColler.setLabel("Coller");
+        JMenuItemColler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMenuItemCollerActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(JMenuItemColler);
+        JMenuItemColler.getAccessibleContext().setAccessibleName("Coller");
+
+        jPopupMenu1.getAccessibleContext().setAccessibleParent(jTextFieldTitle);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EventApp");
         setMinimumSize(new java.awt.Dimension(600, 490));
-        setPreferredSize(new java.awt.Dimension(1200, 900));
 
         jLayeredPane1.setMinimumSize(new java.awt.Dimension(20, 20));
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(1200, 870));
@@ -209,6 +276,8 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setText("Date");
 
         jTextFieldTitle.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jTextFieldTitle.setComponentPopupMenu(jPopupMenu1);
+        jTextFieldTitle.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextFieldTitle.setPreferredSize(new java.awt.Dimension(659, 30));
         jTextFieldTitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -335,7 +404,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonAddAccept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonAddCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20))
@@ -355,6 +424,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuItemOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItemOpen.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jMenuItemOpen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eventapp/open-folder.png"))); // NOI18N
         jMenuItemOpen.setText("Ouvrir");
         jMenuItemOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -374,6 +444,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuFile.add(jMenuItemSaveAs);
         jMenuFile.add(jSeparator1);
 
+        jMenuItemClose.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItemClose.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jMenuItemClose.setText("Fermer");
         jMenuItemClose.addActionListener(new java.awt.event.ActionListener() {
@@ -387,6 +458,31 @@ public class MainFrame extends javax.swing.JFrame {
 
         jMenuEdit.setText("Edit");
         jMenuEdit.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eventapp/plus.png"))); // NOI18N
+        jMenuItem3.setText("Nouveau");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenuEdit.add(jMenuItem3);
+        jMenuEdit.add(jSeparator2);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        jMenuItem1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eventapp/bin.png"))); // NOI18N
+        jMenuItem1.setText("Supprimer");
+        jMenuEdit.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eventapp/refresh.png"))); // NOI18N
+        jMenuItem2.setText("Modifier");
+        jMenuEdit.add(jMenuItem2);
+
         jMenuBar1.add(jMenuEdit);
 
         setJMenuBar(jMenuBar1);
@@ -432,7 +528,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanelAdd.setVisible(true);  
                      
             int row = tableEvents.getSelectedRow();
-            Event event = controller.getEvent(row);
+            Event event = this.notifyGetEvent(row);
             
             String title = event.getTitle();
             String link = event.getLink();
@@ -458,12 +554,12 @@ public class MainFrame extends javax.swing.JFrame {
             int row = tableEvents.getSelectedRow();       
             int del = JOptionPane.showConfirmDialog(this,"Etes-vous sur de vouloir supprimer cette rangée?");
             if(del == 0){
-                controller.removeEvent(row);
+                this.notifyRemoveEvent(row);
             }
             
             // Reload tableEvents
             DefaultTableModel model = (DefaultTableModel) tableEvents.getModel();
-            controller.loadTreeToInterface(model);
+            this.notifyLoadTable(model);
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
 
@@ -500,16 +596,16 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             // Create an event and send to controller.
             Event newEvent = new Event(strTitle, strLink, strGuid, strPubDate, strDescription);
-            if (isAdding) {                           
-            controller.addEvent(newEvent);
-            isAdding = false;
+            if (isAdding) { 
+                this.notifyNewEvent(newEvent);
+                isAdding = false;
             } else {
-                controller.modifyEvent(tableEvents.getSelectedRow(),newEvent);
+                this.notifyModifyEvent(tableEvents.getSelectedRow(),newEvent);
             }
         
             // Refresh tableEvents
             DefaultTableModel model = (DefaultTableModel) tableEvents.getModel();
-            controller.loadTreeToInterface(model);
+            this.notifyLoadTable(model);
         
             // Reset and close form
             jTextFieldTitle.setText("");
@@ -553,10 +649,11 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            controller.openRSS("https://www.teluq.ca/site/infos/rss/communiques.php");
+            String url = "https://www.teluq.ca/site/infos/rss/communiques.php";
+            this.notifyOpenRSS(url);
             
             DefaultTableModel model = (DefaultTableModel) tableEvents.getModel();
-            controller.loadTreeToInterface(model);
+            this.notifyLoadTable(model);
             
             buttonAdd.setEnabled(true);
             buttonModify.setEnabled(true);
@@ -579,11 +676,13 @@ public class MainFrame extends javax.swing.JFrame {
             // get selected directory
             File selectedFile = fileChooser.getSelectedFile();
             String fileName = selectedFile.getAbsolutePath();
+
             try {
-                controller.saveToXMLFile(fileName);
-            } catch (IOException | TransformerException ex) {
+                this.notifySaveToXMLFile(fileName);
+            } catch (Exception ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             JOptionPane.showMessageDialog(null,fileName);
         }
     }//GEN-LAST:event_jMenuItemSaveAsActionPerformed
@@ -611,8 +710,17 @@ public class MainFrame extends javax.swing.JFrame {
         }     
     }//GEN-LAST:event_jCheckBoxDescriptionActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void JMenuItemCollerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuItemCollerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JMenuItemCollerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem JMenuItemColler;
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonModify;
@@ -620,7 +728,12 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBoxGuid;
     private javax.swing.JFormattedTextField jFormattedTextFieldDate;
     private javax.swing.JLabel jLabelAddTitle;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanelAdd;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextField jTextFieldDescription;
     private javax.swing.JTextField jTextFieldGuid;
     private javax.swing.JTextField jTextFieldLink;

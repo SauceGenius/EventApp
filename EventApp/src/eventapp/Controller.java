@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class Controller {
+public class Controller implements Observer {
     
     private final XMLParser xmlParser;
     private Document document;
@@ -27,11 +27,13 @@ public class Controller {
         xmlParser = new XMLParser();
     }   
     
+    @Override
     public void openRSS(String url) throws Exception{
         document = xmlParser.parse(url);
         channel = xmlParser.getElement("channel");
     } 
     
+    @Override
     public void loadTreeToInterface(DefaultTableModel model){
         int rowCount = model.getRowCount();
         for(int i = 0; i < rowCount; i++){
@@ -58,6 +60,7 @@ public class Controller {
         }
     }
     
+    @Override
     public Event getEvent(int row){
         ArrayList<Element> items = xmlParser.getElementList("item");
         Element item = items.get(row);  
@@ -86,6 +89,7 @@ public class Controller {
         return event;
     }
     
+    @Override
     public void addEvent(Event event){
         //events.add(event);
         Element item = document.createElement("item");
@@ -109,6 +113,7 @@ public class Controller {
         item.appendChild(description);
     }
     
+    @Override
     public void modifyEvent(int row, Event event){
         ArrayList<Element> items = xmlParser.getElementList("item");
         Element item = items.get(row);        
@@ -134,12 +139,14 @@ public class Controller {
         desc.getFirstChild().setNodeValue(event.getDescription());
     }
     
+    @Override
     public void removeEvent(int row){
         NodeList nl = channel.getElementsByTagName("item");
         Element element = (Element) nl.item(row); 
         channel.removeChild(element);  
     }
     
+    @Override
     public void saveToXMLFile(String path) throws IOException, TransformerException{
         TransformerFactory tfact = TransformerFactory.newInstance();
         Transformer transformer = tfact.newTransformer();
