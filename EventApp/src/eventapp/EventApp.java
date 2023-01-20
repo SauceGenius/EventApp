@@ -1,5 +1,8 @@
 package eventapp;
 
+import eventapp.view.MainFrame;
+import eventapp.controller.Controller;
+
 /**
  * @author Christopher Forget
  */
